@@ -1,7 +1,9 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit"
+import { sub } from "date-fns"
 
 const initialState = [
   {id: '1', title: 'Learning Redux Toolkit', content: "I've heard good things", 
+    date: sub(new Date(), { minutes: 10 }).toISOString(),
     reactions: {
       thumbsUp: 0,
       wow: 0,
@@ -11,6 +13,7 @@ const initialState = [
     }
   },
   {id: '2', title: 'Slices...', content: 'The more I say slice, the more I want pizza.',
+    date: sub(new Date(), { minutes: 5 }).toISOString(),
     reactions: {
       thumbsUp: 0,
       wow: 0,
@@ -36,6 +39,7 @@ const postsSlice = createSlice({
             title,
             content,
             userId,
+            date: new Date().toISOString(),
             reactions: {
               thumbsUp: 0,
               wow: 0,
@@ -49,7 +53,7 @@ const postsSlice = createSlice({
     },
     reactionAdded: (state, action) => {
       const { postId, reaction } = action.payload
-      const existingPost = state.posts.find(post => post.id === postId);
+      const existingPost = state.find(post => post.id === postId);
 
       if(existingPost) {
         existingPost.reactions[reaction]++;
