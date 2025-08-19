@@ -5,13 +5,20 @@ import App from './App.jsx'
 import { store } from './app/store.js'
 import { Provider } from 'react-redux'
 import { fetchUsers } from './features/users/usersSlice.js'
+import { BrowserRouter as Router, Routes, Route } from 'react-router'
+import { fetchPosts } from './features/posts/postsSlice.js'
 
+store.dispatch(fetchPosts());
 store.dispatch(fetchUsers());
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <Routes>
+          <Route path="/*" element={<App />} />
+        </Routes>
+      </Router>
     </Provider>
   </StrictMode>,
 )
